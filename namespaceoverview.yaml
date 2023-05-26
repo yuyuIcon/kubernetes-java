@@ -25,10 +25,10 @@ spec:
         openAPIV3Schema:
           properties:
             apiVersion:
-              description: APIVersion defines the versioned schema of this representation of an object
+              description:
               type: string
             kind:
-              description: Kind is a string value representing the REST resource this object represents
+              description: 
               type: string
             metadata:
               type: object
