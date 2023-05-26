@@ -1,0 +1,178 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    api-approved.kubernetes.io: https://github.com/kubernetes-sigs/namespace/pull/2
+    controller-gen.kubebuilder.io/version: v0.7.0
+  creationTimestamp: 2022-10-12T08:51:55Z
+  generation: 1
+  name: namespaceoverviews.k8s.io
+  resourceVersion: "2077"
+  uid: 43202784-d0ba-4621-a708-4e2009f25cd5
+spec:
+  conversion:
+    strategy: None
+  group: k8s.io
+  names:
+    kind: NamespaceOverview
+    listKind: NamespaceOverviewList
+    plural: namespaceoverviews
+    singular: namespaceoverview
+  scope: Namespaced
+  versions:
+    - name: v1
+      schema:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              description: "APIVersion defines the versioned schema of this representation of
+                an object. Servers should convert recognized schemas to the
+                latest internal value, and may reject unrecognized values. More
+                info:
+                https://git.k8s.io/community/contributors/devel/sig-architectur\
+                e/api-conventions.md#resources"
+              type: string
+            kind:
+              description: "Kind is a string value representing the REST resource this object
+                represents. Servers may infer this from the endpoint the client
+                submits requests to. Cannot be updated. In CamelCase. More info:
+                https://git.k8s.io/community/contributors/devel/sig-architectur\
+                e/api-conventions.md#types-kinds"
+              type: string
+            metadata:
+              type: object
+            spec:
+              properties:
+                application:
+                  description: Application is the overview of
+                  properties:
+                    empty:
+                      type: integer
+                    failed:
+                      type: integer
+                    partialRunning:
+                      type: integer
+                    pending:
+                      type: integer
+                    running:
+                      type: integer
+                    stopped:
+                      type: integer
+                    total:
+                      type: integer
+                  required:
+                    - empty
+                    - failed
+                    - partialRunning
+                    - pending
+                    - running
+                    - stopped
+                    - total
+                  type: object
+                pod:
+                  description: Pod is the overview of
+                  properties:
+                    errors:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                          reason:
+                            type: string
+                          status:
+                            type: string
+                          time:
+                            format: date-time
+                            type: string
+                        required:
+                          - name
+                          - reason
+                          - status
+                          - time
+                        type: object
+                      type: array
+                    stats:
+                      properties:
+                        error:
+                          type: integer
+                        evicted:
+                          type: integer
+                        pending:
+                          type: integer
+                        running:
+                          type: integer
+                        succeeded:
+                          type: integer
+                      required:
+                        - error
+                        - evicted
+                        - pending
+                        - running
+                        - succeeded
+                      type: object
+                  required:
+                    - errors
+                    - stats
+                  type: object
+                resourceQuota:
+                  description: ResourceQuota is the overview of
+                  properties:
+                    hard:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
+                      description: "Hard is the set of enforced hard limits for each named resource.
+                        More info:
+                        https://kubernetes.io/docs/concepts/policy/resource-quo\
+                        tas/"
+                      type: object
+                    parent:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
+                      description: ResourceList is a set of (resource name, quantity) pairs.
+                      type: object
+                    used:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
+                      description: Used is the current observed total usage of the resource in the
+                        namespace.
+                      type: object
+                  type: object
+                workload:
+                  additionalProperties:
+                    properties:
+                      pending:
+                        type: integer
+                      ready:
+                        type: integer
+                      stopped:
+                        type: integer
+                    required:
+                      - pending
+                      - ready
+                      - stopped
+                    type: object
+                  description: Workload is the overview of
+                  type: object
+              required:
+                - application
+                - pod
+                - resourceQuota
+                - workload
+              type: object
+          required:
+            - spec
+          type: object
+      served: true
+      storage: true
